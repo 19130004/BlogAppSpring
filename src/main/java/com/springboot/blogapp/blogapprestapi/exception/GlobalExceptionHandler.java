@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.context.request.WebRequest;
 import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler;
 
+import java.nio.file.AccessDeniedException;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -56,4 +57,10 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
 //        });
 //        return new ResponseEntity<>(errors, HttpStatus.BAD_REQUEST);
 //    }
+@ExceptionHandler(AccessDeniedException.class)
+public ResponseEntity<ErrorDetails> handleAccessDeniedException(AccessDeniedException ex, WebRequest request) {
+    ErrorDetails errorDetails = new ErrorDetails(new java.util.Date(), ex.getMessage(),
+            request.getDescription(false));
+    return new ResponseEntity<>(errorDetails, HttpStatus.UNAUTHORIZED);
+}
 }
