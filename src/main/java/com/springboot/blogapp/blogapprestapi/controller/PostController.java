@@ -40,7 +40,10 @@ public class PostController {
     public ResponseEntity<PostDto> getPostById(@PathVariable(name = "id") Long id) {
         return new ResponseEntity<>(postService.getPostById(id), HttpStatus.OK);
     }
-
+    @GetMapping("/category/{categoryId}")
+    public ResponseEntity<List<PostDto>> getPostsByCategoryId(@PathVariable("categoryId") Long categoryId){
+        return ResponseEntity.ok(postService.getPostsByCategoryId(categoryId));
+    }
     @PutMapping("/{id}")
     public ResponseEntity<PostDto> updatePost(@Valid @RequestBody PostDto postDto, @PathVariable(name = "id") Long id) {
         return ResponseEntity.ok(postService.updatePost(postDto, id));

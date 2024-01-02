@@ -4,6 +4,7 @@ import com.springboot.blogapp.blogapprestapi.security.JwtAuthenticationEntryPoin
 import com.springboot.blogapp.blogapprestapi.security.JwtAuthenticationFilter;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.Customizer;
 import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
@@ -47,7 +48,8 @@ public class SecurityConfig {
     SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http.authorizeHttpRequests(auth -> {
 //                    auth.anyRequest().authenticated();
-                    auth.requestMatchers("/api/posts/**").permitAll()
+                    auth.requestMatchers("/api/**").permitAll()
+//                            .requestMatchers(HttpMethod.GET,"/api/categories/**").permitAll()
                             .requestMatchers("/api/auth/**").permitAll()
                             .anyRequest().authenticated();
                 }).exceptionHandling(exceptionHandling ->

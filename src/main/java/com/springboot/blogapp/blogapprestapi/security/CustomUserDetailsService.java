@@ -1,7 +1,7 @@
 package com.springboot.blogapp.blogapprestapi.security;
 
 import com.springboot.blogapp.blogapprestapi.entity.User;
-import com.springboot.blogapp.blogapprestapi.repository.UserReponsitory;
+import com.springboot.blogapp.blogapprestapi.repository.UserRepository;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -14,14 +14,14 @@ import java.util.stream.Collectors;
 
 @Service
 public class CustomUserDetailsService implements UserDetailsService {
-    private UserReponsitory userReponsitory;
+    private UserRepository userRepository;
 
-    public CustomUserDetailsService(UserReponsitory userReponsitory) {
-        this.userReponsitory = userReponsitory;
+    public CustomUserDetailsService(UserRepository userRepository) {
+        this.userRepository = userRepository;
     }
     @Override
     public UserDetails loadUserByUsername(String usernameOrEmail) throws UsernameNotFoundException {
-     User user =  userReponsitory.findByUsernameOrEmail(usernameOrEmail,usernameOrEmail)
+     User user =  userRepository.findByUsernameOrEmail(usernameOrEmail,usernameOrEmail)
                        .orElseThrow(()-> new UsernameNotFoundException("Username not found with username or email: " + usernameOrEmail));
         Set<GrantedAuthority> authorities = user
                 .getRoles().stream()
